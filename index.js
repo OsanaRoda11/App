@@ -13,7 +13,6 @@ const carregarMeta = async () => {
     try{
         const dados = await fs.readFile("metas.json", "utf8")
         metas = JSON.parse(dados)
-        console.log("Metas carregadas: "+ metas)
     } catch (erro){
         console.log("Erro ao carregar metas, inicializando como vazio. ", erro);
         metas = []
@@ -34,7 +33,7 @@ const cadastrarMeta = async () => {
     })
 
     if(meta.length == 0){
-        console.log(" meta não pode ser vazia! ") 
+        mensagem = "Meta não pode ser vazia! "
         return
     }
 
@@ -43,6 +42,8 @@ const cadastrarMeta = async () => {
     })
 
     mensagem = "Meta cadastrada com sucesso!"
+    await salvarMetas()
+
 }
 
 
@@ -68,6 +69,8 @@ const listarMetas = async () => {
         meta.checked = true
     })
     mensagem = "Meta(s) concluida(s)"
+    await salvarMetas()
+
 }
 
 const metasRealizadas = async () => {
@@ -76,7 +79,7 @@ const metasRealizadas = async () => {
     })
 
     if(realizadas.length == 0){
-        console.log("Nao existe metas realizadas :(")
+        mensagem = "Nao existe metas realizadas :("
         return
     }
     
@@ -93,7 +96,7 @@ const metasNaoRealizadas = async () => {
     })
 
     if(naoRealizadas.length == 0){
-        console.log("Nao existe metas não realizadas :)")
+        mensagem = "Nao existe metas não realizadas :)"
         return
     }
 
@@ -115,7 +118,7 @@ const deletarMetas = async () => {
     })
 
     if(itensParaDeletar.length == 0){
-        console.log("Nenhum item seleccionado para deletar")
+        mensagem = "Nenhum item seleccionado para deletar"
         return
     }
 
@@ -124,7 +127,9 @@ const deletarMetas = async () => {
             return meta.value != item
         })
     })
-    console.log("Meta(s) deletada(s) com sucesso!")
+    mensagem = "Meta(s) deletada(s) com sucesso!"
+    await salvarMetas()
+
 }
 
 const mostrarMensagem = () => {
@@ -139,12 +144,11 @@ const mostrarMensagem = () => {
 }
 const start = async () => {
 
-    carregarMeta()
+    await carregarMeta()
 
     while(true){
 
         mostrarMensagem()
-        await salvarMetas()
 
         const opcao = await select({
             message: "Menu >",
@@ -178,7 +182,6 @@ const start = async () => {
         switch(opcao){
             case "cadastrar":
                 await cadastrarMeta()
-                
                 break
             case "listar":
                 await listarMetas()

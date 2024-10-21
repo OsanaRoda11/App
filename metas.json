@@ -1,6 +1,18 @@
 [
   {
-    "value": "estudar",
+    "value": "casa",
+    "checked": false
+  },
+  {
+    "value": "Tomar cafe todo dia",
+    "checked": false
+  },
+  {
+    "value": "ligar na Dayani",
+    "checked": false
+  },
+  {
+    "value": "Ser mais tranquila",
     "checked": false
   }
 ]
