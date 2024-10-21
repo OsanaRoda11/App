@@ -1,77 +1,3 @@
-/*
-const {select, input, checkbox} = require('@inquirer/prompts')
- meta = {
-    value: "Tomar 1l de agua por dia",
-    checked: false
-}
- metas = [meta]
-
-const cadastrarMeta = async () => {
-    const meta = await input({
-        message: "Digite uma meta:"
-    })
-
-    if(meta.length === 0){
-        console.log(" meta não pode ser vazia! ") 
-        return
-    }
-
-    metas.push({
-        value: meta, checked: false
-    })
-}
-
-const listarMetas = async () => {
-    const respostas = checkbox({
-        message: "Use as setas para mudar de meta, o espaço para marcar/desmarcar e Enter para finalizar meta",
-        choices: [...metas],
-        instructions: false
-    })
-    
-    if((await respostas).length === 0){
-        console.log("Nenhuma meta seleccionada!")
-        return
-    }
-
-    // biome-ignore lint/complexity/noForEach: <explanation>
-    metas.forEach((m) => {
-        m.checked = false
-    })
-    
-    (respostas).forEach((resposta) => {
-         meta = metas.find((m) => m.value === resposta);
-        if (meta) {
-            meta.checked = true;
-        }
-    });
-    
-    console.log("Meta(s) concluída(s)")
-}
-const start = async () => {
-    
-    while(true){
-        const opcao = await select({
-            message: "Menu >",
-            choices: [
-                {name: "Cadastrar meta", value: "cadastrar"},
-                {name: "Listar metas", value: "listar"},
-                {name: 'Sair', value:'sair'}
-            ]
-        })
-        switch(opcao){
-            case "cadastrar":
-                await cadastrarMeta();
-                console.log(metas)
-                break
-            case "listar":
-                await listarMetas() 
-                break
-            case "sair": 
-                console.log("Sair")
-                return      
-        }
-    }
-}*/
 
 const { default: inquirer } = require("inquirer");
 
@@ -136,10 +62,26 @@ const metasRealizadas = async () => {
     }
     
     await select ({
-        message: "Metas realizadas",
+        message: "Metas realizadas" + realizadas.length,
         choices: [...realizadas]
     })
 
+}
+
+const metasNaoRealizadas = async () => {
+    const naoRealizadas = metas.filter((meta) => {
+        return meta.checked == false
+    })
+
+    if(naoRealizadas.length == 0){
+        console.log("Nao existe metas não realizadas :)")
+        return
+    }
+
+    await select({
+        message: "Metas nao realizadas" + naoRealizadas.length,
+        choices: [...naoRealizadas]
+    })
 }
 const start = async () => {
     while(true){
@@ -160,6 +102,10 @@ const start = async () => {
                     value: "realizadas"
                 },
                 {
+                    name: "Metas nao realizadas",
+                    value: "naoRealizadas"
+                },
+                {
                     name: "Sair",
                     value: "sair"
                 }
@@ -176,6 +122,9 @@ const start = async () => {
                 break
             case "realizadas":
                 await metasRealizadas()
+                break    
+            case "naoRealizadas":
+                await metasNaoRealizadas()
                 break    
             case "sair":
                 return      
