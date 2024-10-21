@@ -33,11 +33,13 @@ Apresentar os dados
 -[+] Operador de atribuicao de valor =
 -[+] Operador de concatenacao +
 -[+] Operador de comparacao
+-[+] Spread operator: ...
 
 ## Estruturas de dados
 
 ### Arrays
 -[+] Uma lista que contem qualquer tipo de dado
+-[+] Metodos do array: push, {find, forEach, filter} : HOF (Higher Order Functions)
 
 ## Objectos
 -[+] Atributos e metodod
